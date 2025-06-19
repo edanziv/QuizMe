@@ -55,14 +55,14 @@ public class SmartChunker {
         return chunks;
     }
 
-    public static void main(String[] args) {
-        String longText = "This is a long paragraph. It has multiple sentences. Each sentence should be handled properly when chunking.\n\nThis is a short paragraph.\n\nAnother very long paragraph follows. It should be split by punctuation. Sentences are better boundaries than arbitrary cuts.";
-        List<String> result = chunkText(longText, 150);
-        int i = 1;
-        for (String chunk : result) {
-            System.out.println("Chunk " + i++ + ":");
-            System.out.println(chunk);
-            System.out.println("-------------------------");
-        }
-    }
+    // public static void main(String[] args) {
+    //     String longText = "This is a long paragraph. It has multiple sentences. Each sentence should be handled properly when chunking.\n\nThis is a short paragraph.\n\nAnother very long paragraph follows. It should be split by punctuation. Sentences are better boundaries than arbitrary cuts.";
+    //     List<String> result = chunkText(longText, 150);
+    //     int i = 1;
+    //     for (String chunk : result) {
+    //         System.out.println("Chunk " + i++ + ":");
+    //         System.out.println(chunk);
+    //         System.out.println("-------------------------");
+    //     }
+    // }
 }

@@ -18,8 +18,10 @@ public class PDFParser {
      * @throws IOException If there is an error reading the file
      */
     public static String parse(String path) throws IOException {
-        try (PDDocument doc = PDDocument.load(new File(path))) {
-            return new PDFTextStripper().getText(doc);
+        try (PDDocument doc = PDDocument.load(new File(path))) { //creating pdf object is neccessary to access the binary file's content
+            String text =  new PDFTextStripper().getText(doc);
+            closeDoc();
+            return text;
         }
     }
 

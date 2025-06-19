@@ -37,6 +37,24 @@
             <artifactId>gson</artifactId>
             <version>2.10.1</version>
         </dependency>
+      <!-- Spring Boot-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <version>3.2.5</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter</artifactId>
+        <version>3.2.5</version>
+    </dependency>
+    <!--automatic restarts on code changes-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-devtools</artifactId>
+      <version>3.2.5</version>
+      <optional>true</optional>
+    </dependency>
   </dependencies>
 
   <build>
@@ -89,6 +107,14 @@
                     <mainClass>com.example.App</mainClass>
                 </configuration>
             </plugin>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <version>3.2.5</version>
+            <configuration>
+              <mainClass>com.example.QuizMeApplication</mainClass>
+            </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>

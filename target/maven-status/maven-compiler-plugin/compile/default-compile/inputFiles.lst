@@ -1,5 +1,6 @@
-C:\Users\edanz\Documents\edan\quize\src\main\java\com\example\App.java
-C:\Users\edanz\Documents\edan\quize\src\main\java\com\example\PromptBuilder.java
-C:\Users\edanz\Documents\edan\quize\src\main\java\com\example\TextSplitter.java
-C:\Users\edanz\Documents\edan\quize\src\main\java\com\example\PDFParser.java
-C:\Users\edanz\Documents\edan\quize\src\main\java\com\example\OllamaClient.java
+C:\Users\edanz\Documents\edan\quiz\src\main\java\com\example\QuizController.java
+C:\Users\edanz\Documents\edan\quiz\src\main\java\com\example\PDFParser.java
+C:\Users\edanz\Documents\edan\quiz\src\main\java\com\example\SmartChunker.java
+C:\Users\edanz\Documents\edan\quiz\src\main\java\com\example\QuizMeApplication.java
+C:\Users\edanz\Documents\edan\quiz\src\main\java\com\example\OllamaClient.java
+C:\Users\edanz\Documents\edan\quiz\src\main\java\com\example\PromptBuilder.java

@@ -21,20 +21,23 @@ public class OllamaClient {
         payload.addProperty("stream", false);
 
         HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create(OLLAMA_URL))
-            .header("Content-Type", "application/json")
-            .POST(HttpRequest.BodyPublishers.ofString(payload.toString()))
-            .build();
+                .uri(URI.create(OLLAMA_URL))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(payload.toString()))
+                .build();
 
-        try{
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString()); // BodyHandler
+                                                                                                        // tells the
+                                                                                                        // client to
+                                                                                                        // read the
+                                                                                                        // response as a
+                                                                                                        // string
             JsonObject json = JsonParser.parseString(response.body()).getAsJsonObject();
             return json.has("response") ? json.get("response").getAsString() : json.toString();
-        }
-        catch (JsonSyntaxException | IOException | InterruptedException e) {
+        } catch (JsonSyntaxException | IOException | InterruptedException | IllegalArgumentException e) {
             System.err.println("Error during Ollama request: " + e.getMessage());
             throw e; // rethrow to handle it in the calling code
         }
     }
 }
-

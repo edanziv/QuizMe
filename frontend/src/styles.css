@@ -1,0 +1,98 @@
+/* General container styling */
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f7f9fb;
+  margin: 0;
+  padding: 0;
+}
+
+.main-page {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 24px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+}
+
+/* Form styling */
+form {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+input[type="file"] {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 6px 12px;
+  background: #f9fafb;
+  font-size: 1rem;
+}
+
+.button {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button[type="submit"]:hover {
+  background: #1e40af;
+}
+
+/* Loading message */
+p {
+  color: #2563eb;
+  font-weight: 500;
+}
+
+/* Textarea styling */
+textarea {
+  width: 100%;
+  min-height: 320px;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  color: #1e293b;
+  font-family: 'Fira Mono', 'Consolas', monospace;
+  font-size: 1rem;
+  resize: vertical;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+  margin-top: 12px;
+}
+
+h1 {
+  text-align: center;
+  color: #2563eb;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 28px;
+  letter-spacing: 1px;
+}
+
+h3 {
+  text-align: center;
+  color: #475569;
+  font-size: 1.15rem;
+  font-weight: 400;
+  margin-bottom: 24px;
+  margin-top: -16px;
+  letter-spacing: 0.5px;
+}
+
+.answers-section {
+  max-width: 600px;
+  margin: 32px auto 0 auto;
+  padding: 24px;
+  background: #f1f5f9;
+  border-radius: 14px;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+  min-height: 120px;
+}
