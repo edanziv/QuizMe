@@ -1,13 +1,15 @@
 # QuizMe
 
-QuizMe is a Java application that generates exam-style questions and answers from PDF or TXT files using AI (via Ollama). It helps students and educators quickly create practice questions from study materials.
+QuizMe is a full-stack Java and React application that generates exam-style questions and answers from PDF or TXT files using AI (via Ollama). 
+It helps students and educators quickly create practice questions from study materials.
 
 ## Features
 
 - Supports both PDF and TXT files as input
 - Splits large documents into manageable chunks
-- Uses AI (Ollama) to generate up to 5 questions and answers per chunk
-- Interactive command-line interface
+- Uses AI (Ollama) to generate questions and answers
+- REST API backend with Spring Boot
+- React frontend for easy interaction
 - Handles errors gracefully
 
 ## Requirements
@@ -28,56 +30,64 @@ QuizMe is a Java application that generates exam-style questions and answers fro
 2. **Build the project:**
    ```sh
    mvn clean package
+   mvn spring-boot:run
    ```
+The backend will start on [http://localhost:8080](http://localhost:8080).
 
 3. **Start Ollama locally**  
    Make sure Ollama is running and the `deepseek-r1` model is available.
 
+### 4. Run the frontend
+
+```sh
+cd frontend
+npm install
+npm start
+```
+
+The frontend will start on [http://localhost:3000](http://localhost:3000).
+
+---
+
 ## Usage
 
-1. **Run the application:**
-   ```sh
-   mvn exec:java -Dexec.mainClass="com.example.App"
-   ```
+1. Open the frontend in your browser.
+2. Upload a PDF or TXT file.
+3. Wait for the questions to be generated and displayed.
+4. Click "Get Answers" to fetch AI-generated answers for the questions.
 
-2. **Follow the prompts:**
-   - Enter the absolute path to a PDF or TXT file.
-   - Wait for the questions to be generated.
-   - Press Enter to get more questions or type `exit` to quit.
+---
 
 ## Project Structure
 
 ```
-src/
-  main/
-    java/com/example/
-      App.java
-      PDFParser.java
-      PromptBuilder.java
-      OllamaClient.java
-      SmartChunker.java
-      TextSplitter.java
-  test/
-    java/com/example/
-    resources/
-pom.xml
+quizme/
+├── src/
+│   └── main/java/com/example/
+│       ├── QuizController.java
+│       ├── PDFParser.java
+│       ├── PromptBuilder.java
+│       ├── OllamaClient.java
+│       ├── SmartChunker.java
+│       └── ...
+├── frontend/
+│   ├── src/
+│   │   ├── App.js
+│   │   ├── components/
+│   │   │   ├── FileUpload.js
+│   │   │   └── GetAnswers.js
+│   │   └── styles.css
+│   └── ...
+├── pom.xml
+└── ...
 ```
+
+---
 
 ## Example
 
-```
-Enter the absolute path to the file (PDF or TXT), or type 'exit' to quit: /path/to/French_Revolution.txt
+![image](https://github.com/user-attachments/assets/0d8eabb6-8833-4cc9-8f66-74c9a1826c0f)
 
-Preperring you questions, this may take a minute...
-
-=== Questions and Answers ===
-1. What event marked the end of absolute monarchy in France?
-   Answer: The French Revolution.
-
-...
-
-Press Enter to for more questions...
-```
 ---
 
 **Note:**  
