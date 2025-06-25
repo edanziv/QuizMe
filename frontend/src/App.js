@@ -1,15 +1,30 @@
-import React from 'react';
-import FileUpload from './components/FileUpload';
-import GetAnswers from './components/GetAnswers';
+import React, {useState} from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import HomePage from './components/HomePage';
+import LogIn from './components/LogIn';
+import Register from './components/Register';
+import UserNameProvider from './context/UserNameProvider';
 import './styles.css';
 
 function App() {
+  //const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   return (
-    <div className='main-page'>
-      <h1>QuizMe GenAI</h1>
-      <h3>Upload your test material in a pdf or txt format and prepare for the QUIZ!</h3>
-      <FileUpload />
-      <GetAnswers/>
+    <div>
+      <Router>
+        <UserNameProvider>
+          <Routes>
+            <Route path="/" element={<Navigate to="/login" replace/>}></Route>
+            <Route path="/login" element={<LogIn 
+            //username={username}
+            //setUsername={setUsername}
+            password={password}
+            setPassword={setPassword}/>}></Route>
+            <Route path="/register" element={<Register/>}></Route>
+            <Route path="/home" element={<HomePage/>}></Route>
+          </Routes>
+        </UserNameProvider>
+      </Router>
     </div>
   );
 }

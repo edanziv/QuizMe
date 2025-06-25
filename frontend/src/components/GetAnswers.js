@@ -1,20 +1,19 @@
-import React, {useState} from "react";
+import React from "react";
 
-export default function GetAnswers({ results }) {
-    const [answers, setAnswers] = useState([]);
+export default function GetAnswers({ answers, setAnswers }) {
 
     const handleGetAnswers = async (e) => {
         e.preventDefault();
         try{
-            setAnswers(["Fetching answers..."]);
+            setAnswers("Fetching answers...");
             const res = await fetch("http://localhost:8080/api/quiz/answers", {
             method: "GET",
             });
             const data = await res.json();
-            setAnswers(data);
+            setAnswers(Array.isArray(data) ? data.join("\n\n") : String(data));
         } catch (error) {
             console.error("Error fetching answers:", error);
-            setAnswers(["Error fetching answers. Please try again."]);
+            setAnswers("Error fetching answers. Please try again.");
         }
     }
 
@@ -24,7 +23,7 @@ export default function GetAnswers({ results }) {
                 className='button'
                 onClick={handleGetAnswers}>Get Answers</button>
             <textarea
-                value={answers.join("\n\n")}
+                value={answers}
                 readOnly
             />
         </div>

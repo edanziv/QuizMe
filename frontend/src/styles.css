@@ -7,12 +7,31 @@ body {
 }
 
 .main-page {
-  max-width: 600px;
+  max-width: 900px;
   margin: 40px auto;
-  padding: 24px;
+  padding: 32px;
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  min-width: 350px;
+  position: relative;
+}
+
+/* Optionally, make textarea fill the width of .main-page */
+textarea {
+  width: 100%;
+  min-height: 320px;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  color: #1e293b;
+  font-family: 'Fira Mono', 'Consolas', monospace;
+  font-size: 1rem;
+  resize: vertical;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+  margin-top: 12px;
+  box-sizing: border-box;
 }
 
 /* Form styling */
@@ -40,6 +59,7 @@ input[type="file"] {
   font-size: 1rem;
   cursor: pointer;
   transition: background 0.2s;
+  margin-top: 12px;
 }
 
 button[type="submit"]:hover {
@@ -52,21 +72,6 @@ p {
   font-weight: 500;
 }
 
-/* Textarea styling */
-textarea {
-  width: 100%;
-  min-height: 320px;
-  padding: 16px;
-  border-radius: 12px;
-  border: 1px solid #d1d5db;
-  background: #f9fafb;
-  color: #1e293b;
-  font-family: 'Fira Mono', 'Consolas', monospace;
-  font-size: 1rem;
-  resize: vertical;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
-  margin-top: 12px;
-}
 
 h1 {
   text-align: center;
@@ -95,4 +100,74 @@ h3 {
   border-radius: 14px;
   box-shadow: 0 1px 8px rgba(0,0,0,0.06);
   min-height: 120px;
+}
+
+/* Login page container */
+.login-page {
+  max-width: 370px;
+  margin: 60px auto;
+  padding: 32px 28px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* Stack form elements vertically inside login-page */
+.login-page form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Form group styling */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #444;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"] {
+  padding: 10px 12px;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="password"]:focus {
+  border-color: #2563eb;
+  outline: none;
+}
+
+.logout-button {
+  position: absolute;
+  top: 32px;
+  left: 40px;
+  z-index: 10;
+  background: none;
+  color: #2563eb;
+  border: 1.5px solid #2563eb;
+  padding: 5px 16px;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+}
+
+.logout-button:hover {
+  background: #2563eb10;
+  color: #1e40af;
+  border-color: #1e40af;
 }

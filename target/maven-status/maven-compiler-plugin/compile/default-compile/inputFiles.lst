@@ -1,6 +1,10 @@
+C:\Users\edanz\Documents\edan\quiz\src\main\java\com\example\DBHandler.java
+C:\Users\edanz\Documents\edan\quiz\src\main\java\com\example\config\CorsConfig.java
+C:\Users\edanz\Documents\edan\quiz\src\main\java\com\example\config\SecurityConfig.java
 C:\Users\edanz\Documents\edan\quiz\src\main\java\com\example\QuizController.java
 C:\Users\edanz\Documents\edan\quiz\src\main\java\com\example\PDFParser.java
 C:\Users\edanz\Documents\edan\quiz\src\main\java\com\example\SmartChunker.java
 C:\Users\edanz\Documents\edan\quiz\src\main\java\com\example\QuizMeApplication.java
-C:\Users\edanz\Documents\edan\quiz\src\main\java\com\example\OllamaClient.java
 C:\Users\edanz\Documents\edan\quiz\src\main\java\com\example\PromptBuilder.java
+C:\Users\edanz\Documents\edan\quiz\src\main\java\com\example\AIClients\HuggingFaceClient.java
+C:\Users\edanz\Documents\edan\quiz\src\main\java\com\example\AIClients\OllamaClient.java

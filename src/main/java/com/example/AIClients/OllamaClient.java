@@ -1,4 +1,4 @@
-package com.example;
+package com.example.AIClients;
 
 import java.io.IOException;
 import java.net.URI;
@@ -12,7 +12,16 @@ import com.google.gson.JsonSyntaxException;
 public class OllamaClient {
     private static final String OLLAMA_URL = "http://localhost:11434/api/generate";
 
-    public static String generate(String prompt) throws IOException, InterruptedException {
+    /**
+     * Sends a prompt to the Ollama API and returns the generated response.
+     *
+     * @param prompt The input prompt for the Ollama model
+     * @return The generated response from the model
+     * @throws IOException If there is an error during the HTTP request
+     * @throws InterruptedException If the request is interrupted
+     */
+    // since the method throws exceptions, it is necessary to add 'throws IOException, InterruptedException' to the method signature
+    public static String generate(String prompt) throws IOException, InterruptedException { 
         HttpClient client = HttpClient.newHttpClient();
 
         JsonObject payload = new JsonObject();

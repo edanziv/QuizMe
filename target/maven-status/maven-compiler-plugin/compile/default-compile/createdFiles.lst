@@ -1,7 +1,5 @@
-com\example\QuizController$1.class
 com\example\PromptBuilder.class
 com\example\PDFParser.class
 com\example\SmartChunker.class
-com\example\OllamaClient.class
 com\example\QuizController.class
 com\example\QuizMeApplication.class

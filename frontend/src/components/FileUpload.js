@@ -1,16 +1,13 @@
 // File: src/FileUpload.js
-import React, { useState } from 'react';
+import React from 'react';
 
-function FileUpload() { //useState - returns a stateful value and a function to update
-  const [file, setFile] = useState(null);
-  const [results, setResults] = useState([]);
-
+function FileUpload({file, setFile, questions, setQuestions}) { //useState - returns a stateful value and a function to update
   const handleFileChange = (e) => setFile(e.target.files[0]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!file) return;
-    setResults(["Processing..."])
+    setQuestions("Processing...")
     try{
       const formData = new FormData();
       formData.append('file', file);
@@ -19,22 +16,23 @@ function FileUpload() { //useState - returns a stateful value and a function to 
         body: formData,
       });
       const data = await res.json();
-      setResults(data);
+      setQuestions(Array.isArray(data) ? data.join("\n\n") : String(data));
     } catch (error) {
       console.error('Error uploading file:', error);
-      setResults(["Error uploading file. Please try again."]);    
+      setQuestions("Error uploading file. Please try again.");    
     }
   };
 
   return (
     <div>
+      <h3>Upload your test material in a pdf or txt format and prepare for the QUIZ!</h3>
       <form onSubmit={handleSubmit}>
         <input type="file" accept=".pdf,.txt" onChange={handleFileChange} />
         <button type="submit" className='button'>Upload</button>
       </form>
       <div>
         <textarea
-            value={results.join('\n\n')}
+            value={questions}
             readOnly
         />
       </div>
