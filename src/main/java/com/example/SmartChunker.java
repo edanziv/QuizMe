@@ -17,7 +17,7 @@ public class SmartChunker {
         List<String> chunks = new ArrayList<>();
         String[] paragraphs = text.split("\n\s*\n"); // split by empty lines
 
-        StringBuilder currentChunk = new StringBuilder();
+        StringBuilder currentChunk = new StringBuilder(); //allows in-place modifications
 
         for (String paragraph : paragraphs) {
             if (paragraph.length() > maxChunkSize) {
@@ -54,15 +54,4 @@ public class SmartChunker {
 
         return chunks;
     }
-
-    // public static void main(String[] args) {
-    //     String longText = "This is a long paragraph. It has multiple sentences. Each sentence should be handled properly when chunking.\n\nThis is a short paragraph.\n\nAnother very long paragraph follows. It should be split by punctuation. Sentences are better boundaries than arbitrary cuts.";
-    //     List<String> result = chunkText(longText, 150);
-    //     int i = 1;
-    //     for (String chunk : result) {
-    //         System.out.println("Chunk " + i++ + ":");
-    //         System.out.println(chunk);
-    //         System.out.println("-------------------------");
-    //     }
-    // }
 }

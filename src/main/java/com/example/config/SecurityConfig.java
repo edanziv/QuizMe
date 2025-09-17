@@ -9,9 +9,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configure(http))
-                .authorizeHttpRequests(auth -> auth
+                .csrf(csrf -> csrf.disable()) //turns off Cross-Site Request Forgery protection
+                .cors(cors -> cors.configure(http)) //sets up Cross-Origin Resource Sharing
+                .authorizeHttpRequests(auth -> auth //allows any HTTP request without authentication or authorization
                         .anyRequest().permitAll());
         return http.build();
     }

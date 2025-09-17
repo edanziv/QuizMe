@@ -1,32 +1,34 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import UserNameContext from "../context/UserNameContext";
+import { useContext, useState } from "react";
+import EmailContext from "../context/emailContext";
+import "../styles.css";
 
-export default function LogIn({password, setPassword}) {
+export default function LogIn() {
     const navigate = useNavigate();
-    const {username, setUsername} = useContext(UserNameContext);
+    const {email, setEmail} = useContext(EmailContext);
+    const [password, setPassword] = useState("");
 
-    const handleUsernameChange = (e) => setUsername(e.target.value);
+    const handleEmailChange = (e) => setEmail(e.target.value);
     const handlePasswordChange = (e) => setPassword(e.target.value);
-    console.log("Username:", username);
+    console.log("email:", email);
     console.log("Password:", password);
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        if (!username || !password) {
-            alert("Please enter both username and password.");
+        if (!email || !password) {
+            alert("Please enter both email and password.");
             return;
         }
         const formData = new FormData();
-        formData.append("username", username);  
+        formData.append("email", email);  
         formData.append("password", password);
         const res = await fetch("http://localhost:8080/api/quiz/login", {
             method: "POST",
             headers: {
             "Content-Type": "application/json",
             },
-            body: JSON.stringify({ username: username, password: password }),
+            body: JSON.stringify({ email: email, password: password }),
         });
         if (res.ok) {
             navigate("/home");
@@ -39,8 +41,8 @@ export default function LogIn({password, setPassword}) {
       <h1>Log In</h1>
       <form onSubmit={handleLogin}>
         <div className="form-group">
-          <label htmlFor="username">Username:</label>
-          <input type="text" id="username" name="username" required onChange={handleUsernameChange}/>
+          <label htmlFor="email">Email:</label>
+          <input type="text" id="email" name="email" required onChange={handleEmailChange}/>
         </div>
         <div className="form-group">
           <label htmlFor="password">Password:</label>

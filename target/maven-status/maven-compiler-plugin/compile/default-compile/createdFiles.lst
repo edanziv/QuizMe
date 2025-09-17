@@ -1,5 +1,11 @@
+com\example\config\CorsConfig.class
+com\example\AIClients\HuggingFaceClient.class
+com\example\DBHandler.class
+com\example\config\SecurityConfig.class
 com\example\PromptBuilder.class
+com\example\AIClients\OllamaClient.class
 com\example\PDFParser.class
 com\example\SmartChunker.class
 com\example\QuizController.class
 com\example\QuizMeApplication.class
+com\example\config\CorsConfig$1.class

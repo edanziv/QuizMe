@@ -1,7 +1,7 @@
-// File: src/FileUpload.js
 import React from 'react';
+import "../styles.css";
 
-function FileUpload({file, setFile, questions, setQuestions}) { //useState - returns a stateful value and a function to update
+function FileUpload({file, setFile, questions, setQuestions}) { 
   const handleFileChange = (e) => setFile(e.target.files[0]);
 
   const handleSubmit = async (e) => {

@@ -3,27 +3,26 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import HomePage from './components/HomePage';
 import LogIn from './components/LogIn';
 import Register from './components/Register';
-import UserNameProvider from './context/UserNameProvider';
+import EmailProvider from './context/emailProvider';
+import History from './components/History';
+import FileHistory from './components/FileHistory';
 import './styles.css';
 
 function App() {
-  //const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  
   return (
     <div>
       <Router>
-        <UserNameProvider>
+        <EmailProvider>
           <Routes>
             <Route path="/" element={<Navigate to="/login" replace/>}></Route>
-            <Route path="/login" element={<LogIn 
-            //username={username}
-            //setUsername={setUsername}
-            password={password}
-            setPassword={setPassword}/>}></Route>
+            <Route path="/login" element={<LogIn/>}></Route>
             <Route path="/register" element={<Register/>}></Route>
             <Route path="/home" element={<HomePage/>}></Route>
+            <Route path="/history" element={<History/>}></Route>
+            <Route path="/file-history" element={<FileHistory/>}></Route>
           </Routes>
-        </UserNameProvider>
+        </EmailProvider>
       </Router>
     </div>
   );

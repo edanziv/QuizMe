@@ -9,6 +9,11 @@ public class PromptBuilder {
     public static String buildAnswersPrompt(String chunk, String questions) {
         return "Given the following text:\n\n" + chunk +
                 "\n\nAnd the following questions on the text:\n\n" + questions +
-                "\n\nGenerate answers to the questions, one answer per question, numbered accordingly.";
+                "\n\nProvide a full answer for each of the questions mentioned.";
+    }
+
+    public static String buildQuizPrompt(String questions){
+        return "Given the following questions:\n\n" + questions + 
+                "\n\n for each question generate a multiple choice question.";
     }
 }

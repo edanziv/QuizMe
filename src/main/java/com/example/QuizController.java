@@ -8,16 +8,17 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.example.AIClients.HuggingFaceClient;
 
 @RestController
 @RequestMapping("/api/quiz")
 public class QuizController {
-    List<String> questions = new ArrayList<>();
-    List<String> answers = new ArrayList<>();
+    Map<Integer, List<String>> questions = new HashMap<>();
+    Map<Integer, List<String>> answers = new HashMap<>();
     List<String> chunks = new ArrayList<>();
-    Boolean finishedProcessing = false;
+    Boolean finishedProcessing = true;
 
     public static String getExtension(Path path) {
         String fileName = path.getFileName().toString();
@@ -65,13 +66,18 @@ public class QuizController {
                 return ResponseEntity.badRequest().body("Unsupported file type.");
             }
             chunks = SmartChunker.chunkText(text, 2000);
-            for (String chunk : chunks) {
+            for (int i = 0; i < chunks.size(); i++) {
+                String chunk = chunks.get(i);
                 String currPrompt = PromptBuilder.buildQuestionsPrompt(chunk);
-                String quiestionsHuggingFace = HuggingFaceClient.generate(currPrompt);
-                questions.add(quiestionsHuggingFace.trim());
+                List<String> questionsHuggingFace = HuggingFaceClient.generate(currPrompt, true);
+                questions.put(i, questionsHuggingFace);
             }
             finishedProcessing = true;
-            return ResponseEntity.ok(questions);
+            List<String> allQuestions = questions.values().stream() // gets a collection of all the lists of questions
+                                                                    // (one list per chunk).
+                    .flatMap(List::stream) // flattens all the lists of questions into a single stream of questions
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(allQuestions);
         } catch (Exception e) {
             finishedProcessing = true;
             return ResponseEntity.status(500).body("Error: " + e.getMessage());
@@ -92,30 +98,48 @@ public class QuizController {
         }
         try {
             answers.clear();
-            for (int i = 0; i < questions.size(); i++) {
-                String currAnswers = PromptBuilder.buildAnswersPrompt(chunks.get(i), questions.get(i));
-                String answersHuggingFace = HuggingFaceClient.generate(currAnswers);
-                answers.add(answersHuggingFace.trim());
+            for (int i = 0; i < chunks.size(); i++) {
+                List<String> chunkQuestions = questions.get(i);
+                if (chunkQuestions == null || chunkQuestions.isEmpty())
+                    continue;
+                String questionsString = String.join("\n", chunkQuestions);
+                String currAnswersPrompt = PromptBuilder.buildAnswersPrompt(chunks.get(i), questionsString);
+                List<String> answersHuggingFace = HuggingFaceClient.generate(currAnswersPrompt, false);
+                answers.put(i, answersHuggingFace);
             }
-            return ResponseEntity.ok(answers);
+            List<String> allAnswers = answers.values().stream()
+                    .flatMap(List::stream)
+                    .collect(Collectors.toList());
+            questions.clear();
+            chunks.clear();
+            return ResponseEntity.ok(allAnswers);
         } catch (Exception e) {
+            System.out.println("Error generating answers: " + e.getMessage());
             return ResponseEntity.status(500).body("Error generating answers: " + e.getMessage());
         }
     }
 
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        return email.matches(emailRegex);
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
-        String username = body.get("username");
+        String email = body.get("email");
         String password = body.get("password");
+        if (!isValidEmail(email)) {
+            return ResponseEntity.status(401).body("Invalid email");
+        }
 
         try {
-            boolean isValidUser = DBHandler.checkUserCredentials(username, password);
+            boolean isValidUser = DBHandler.checkUserCredentials(email, password);
             System.out.println("User validation result: " + isValidUser);
 
             if (isValidUser) {
                 return ResponseEntity.ok("Login successful");
             } else {
-                return ResponseEntity.status(401).body("Invalid username or password");
+                return ResponseEntity.status(401).body("Invalid email or password");
             }
         } catch (Exception e) {
             System.err.println("Error during login: " + e.getMessage());
@@ -125,15 +149,19 @@ public class QuizController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Map<String, String> body) {
-        String username = body.get("username");
+        String email = body.get("email");
         String password = body.get("password");
 
+        if (!isValidEmail(email)) {
+            return ResponseEntity.status(422).body("Invalid email");
+        }
+
         try {
-            boolean isRegistered = DBHandler.registerUser(username, password);
+            boolean isRegistered = DBHandler.registerUser(email, password);
             if (isRegistered) {
                 return ResponseEntity.ok("Registration successful");
             } else {
-                return ResponseEntity.status(400).body("Username already exists");
+                return ResponseEntity.status(401).body("email already exists");
             }
         } catch (Exception e) {
             System.err.println("Error during registration: " + e.getMessage());
@@ -144,16 +172,33 @@ public class QuizController {
     @PostMapping("/saveQuiz")
     public ResponseEntity<?> saveQuiz(@RequestBody Map<String, String> body) {
         String fileName = body.get("fileName");
-        String userName = body.get("userName");
+        String email = body.get("email");
         String questions = body.get("questions");
         String answers = body.get("answers");
 
-        System.out.println("Saving quiz with fileName: " + fileName + ", userName: " + userName);
+        System.out.println("Saving quiz with fileName: " + fileName + ", userName: " + email);
         try {
-            DBHandler.insertFile(fileName, userName, questions, answers);
+            DBHandler.insertFile(fileName, email, questions, answers);
             return ResponseEntity.ok("Quiz saved successfully.");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error saving quiz: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/history")
+    public ResponseEntity<?> getHistory(@RequestBody Map<String, String> body) {
+        String email = body.get("email");
+
+        if (!isValidEmail(email)) {
+            return ResponseEntity.status(422).body("Invalid email");
+        }
+
+        try {
+            List<Map<String, String>> history = DBHandler.getFiles(email);
+            return ResponseEntity.ok(history);
+        } catch (Exception e) {
+            System.err.println("Error retrieving history: " + e.getMessage());
+            return ResponseEntity.status(500).body("Error retrieving history: " + e.getMessage());
         }
     }
 }
