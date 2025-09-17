@@ -17,7 +17,7 @@ import com.google.gson.JsonSyntaxException;
 
 public class HuggingFaceClient {
     private static final String HuggingFace_URL = "https://router.huggingface.co/novita/v3/openai/chat/completions";
-    private static final String TOKEN = "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";
+    private static final String TOKEN = "Add_Your_Token_Here";
 
     /**
      * Sends a prompt to the Ollama API and returns the generated response.
