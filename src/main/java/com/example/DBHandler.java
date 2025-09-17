@@ -13,7 +13,7 @@ import java.util.Map;
 public class DBHandler {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/QuizMe";
     private static final String USER = "root";
-    private static final String PASSWORD = "edan2000";
+    private static final String PASSWORD = "MySQL_Password";
 
     public static boolean checkUserCredentials(String email, String password) throws SQLException {
         String isUserExist = "SELECT COUNT(*) FROM users WHERE email = ? AND password = ?";
