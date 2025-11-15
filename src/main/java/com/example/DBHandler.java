@@ -9,53 +9,52 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class DBHandler {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/QuizMe";
     private static final String USER = "root";
     private static final String PASSWORD = "edan2000";
 
+    // add a PasswordEncoder instance
+    private static final PasswordEncoder encoder = new BCryptPasswordEncoder();
+
     public static boolean checkUserCredentials(String email, String password) throws SQLException {
-        String isUserExist = "SELECT COUNT(*) FROM users WHERE email = ? AND password = ?";
+        String query = "SELECT password FROM users WHERE email = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-                PreparedStatement stmt = conn.prepareStatement(isUserExist)) {
+             PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, email);
-            stmt.setString(2, password);
             try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) { // A RuleSet cursor is positioned before the first row, so we need to call
-                                 // next() to move to the first row
-                    return rs.getInt(1) > 0; // retreives the first column of the first row
+                if (rs.next()) {
+                    String storedHash = rs.getString("password");
+                    return encoder.matches(password, storedHash);
+                } else {
+                    return false;
                 }
             }
         }
-        return false;
     }
 
     public static boolean registerUser(String email, String password) throws SQLException {
-        String isUserExist = "SELECT COUNT(*) FROM users WHERE email = ?";
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-                PreparedStatement stmt = conn.prepareStatement(isUserExist)) {
-            stmt.setString(1, email);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next() && rs.getInt(1) > 0) {
-                    return false; // User already exists
+        String checkSql = "SELECT COUNT(*) FROM users WHERE email = ?";
+        String insertSql = "INSERT INTO users (email, password) VALUES (?, ?)";
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD)) {
+            try (PreparedStatement checkStmt = conn.prepareStatement(checkSql)) {
+                checkStmt.setString(1, email);
+                try (ResultSet rs = checkStmt.executeQuery()) {
+                    if (rs.next() && rs.getInt(1) > 0) {
+                        return false; // already exists
+                    }
                 }
             }
-        } catch (SQLException e) {
-            System.err.println("Error checking user existence: " + e.getMessage());
-            throw e; // Re-throw the exception to handle it in the calling method
-        }
-
-        String insertUser = "INSERT INTO users (email, password) VALUES (?, ?)";
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-                PreparedStatement stmt = conn.prepareStatement(insertUser)) {
-            stmt.setString(1, email);
-            stmt.setString(2, password);
-            int res = stmt.executeUpdate();
-            return res > 0; // User registered successfully
-        } catch (SQLException e) {
-            System.err.println("Error registering user: " + e.getMessage());
-            throw e;
+            String hash = encoder.encode(password);
+            try (PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
+                insertStmt.setString(1, email);
+                insertStmt.setString(2, hash);
+                insertStmt.executeUpdate();
+                return true;
+            }
         }
     }
 
